@@ -20,14 +20,26 @@ from websockets.client import WebSocketClientProtocol
 
 from events import STTChunkEvent, STTEvent, STTOutputEvent
 
+# Turn detection. AssemblyAI ends a turn after min_end_of_turn_silence_when_confident
+# of silence if its end-of-turn model is confident, and after max_turn_silence
+# otherwise. Lower values reply sooner but may cut the user off mid-sentence.
+END_OF_TURN_CONFIDENCE = float(os.getenv("ASSEMBLYAI_END_OF_TURN_CONFIDENCE", "0.4"))
+MIN_TURN_SILENCE_MS = int(os.getenv("ASSEMBLYAI_MIN_TURN_SILENCE_MS", "300"))
+MAX_TURN_SILENCE_MS = int(os.getenv("ASSEMBLYAI_MAX_TURN_SILENCE_MS", "1000"))
+
 
 class AssemblyAISTT:
     def __init__(
         self,
         api_key: Optional[str] = None,
         sample_rate: int = 16000,
-        format_turns: bool = True,
+        format_turns: bool = False,
     ):
+        """
+        With format_turns, the final transcript waits for AssemblyAI to add
+        punctuation and casing, which adds latency. Without it, the final
+        transcript is sent as soon as the turn ends.
+        """
         self.api_key = api_key or os.getenv("ASSEMBLYAI_API_KEY")
         if not self.api_key:
             raise ValueError("AssemblyAI API key is required")
@@ -67,14 +79,15 @@ class AssemblyAISTT:
                                 pass
                             elif message_type == "Turn":
                                 transcript = message.get("transcript", "")
-                                turn_is_formatted = message.get(
-                                    "turn_is_formatted", False
-                                )
+                                if self.format_turns:
+                                    is_final = message.get("turn_is_formatted", False)
+                                else:
+                                    is_final = message.get("end_of_turn", False)
 
-                                if turn_is_formatted:
+                                if is_final:
                                     if transcript:
                                         yield STTOutputEvent.create(transcript)
-                                else:
+                                elif not message.get("end_of_turn"):
                                     yield STTChunkEvent.create(transcript)
 
                             elif message_type == "Termination":
@@ -112,6 +125,9 @@ class AssemblyAISTT:
             {
                 "sample_rate": self.sample_rate,
                 "format_turns": str(self.format_turns).lower(),
+                "end_of_turn_confidence_threshold": END_OF_TURN_CONFIDENCE,
+                "min_end_of_turn_silence_when_confident": MIN_TURN_SILENCE_MS,
+                "max_turn_silence": MAX_TURN_SILENCE_MS,
             }
         )
         url = f"wss://streaming.assemblyai.com/v3/ws?{params}"

@@ -1,0 +1,922 @@
+{
+ "source": "India Post, via api.postalpincode.in",
+ "fetched": "2026-10-23",
+ "cities": [
+  {
+   "name": "Bengaluru",
+   "aliases": [
+    "bengaluru",
+    "bangalore",
+    "blr"
+   ],
+   "zones": [
+    {
+     "name": "Central",
+     "active": true,
+     "pincodes": [
+      {
+       "pincode": "560001",
+       "areas": [
+        "Bangalore",
+        "Bangalore Bazaar",
+        "CMM Court Complex",
+        "Dr. Ambedkar Veedhi",
+        "HighCourt",
+        "Legislators Home",
+        "Mahatma Gandhi Road",
+        "Rajbhavan (Bangalore)",
+        "Vasanthanagar",
+        "Vidhana Soudha"
+       ]
+      }
+     ]
+    },
+    {
+     "name": "East",
+     "active": true,
+     "pincodes": [
+      {
+       "pincode": "560005",
+       "areas": [
+        "Fraser Town"
+       ]
+      },
+      {
+       "pincode": "560006",
+       "areas": [
+        "J.C.Nagar",
+        "Training Command IAF"
+       ]
+      },
+      {
+       "pincode": "560007",
+       "areas": [
+        "Agram",
+        "Air Force Hospital"
+       ]
+      },
+      {
+       "pincode": "560008",
+       "areas": [
+        "H.A.L II Stage",
+        "Hulsur Bazaar"
+       ]
+      },
+      {
+       "pincode": "560016",
+       "areas": [
+        "Doorvaninagar",
+        "Krishnarajapuram R S",
+        "Ramamurthy Nagar"
+       ]
+      },
+      {
+       "pincode": "560017",
+       "areas": [
+        "Vimanapura",
+        "NAL"
+       ]
+      },
+      {
+       "pincode": "560024",
+       "areas": [
+        "H.A. Farm",
+        "Anandnagar (Bangalore)",
+        "Hebbal Kempapura"
+       ]
+      },
+      {
+       "pincode": "560025",
+       "areas": [
+        "Museum Road",
+        "Bangalore Sub Foreign Post",
+        "CMP Centre And School",
+        "Richmond Town"
+       ]
+      },
+      {
+       "pincode": "560032",
+       "areas": [
+        "R T Nagar",
+        "P&T Col. Kavalbyrasandra"
+       ]
+      },
+      {
+       "pincode": "560033",
+       "areas": [
+        "Maruthi Sevanagar"
+       ]
+      },
+      {
+       "pincode": "560036",
+       "areas": [
+        "Krishnarajapuram",
+        "Devasandra"
+       ]
+      },
+      {
+       "pincode": "560037",
+       "areas": [
+        "Doddanekkundi",
+        "Marathahalli Colony",
+        "Kundalahalli",
+        "Rameshnagar"
+       ]
+      },
+      {
+       "pincode": "560038",
+       "areas": [
+        "Indiranagar (Bangalore)"
+       ]
+      },
+      {
+       "pincode": "560042",
+       "areas": [
+        "Sivan Chetty Gardens"
+       ]
+      },
+      {
+       "pincode": "560043",
+       "areas": [
+        "Horamavu",
+        "Kalyananagar",
+        "Banaswadi",
+        "Jalavayuvihar"
+       ]
+      },
+      {
+       "pincode": "560045",
+       "areas": [
+        "Arabic College",
+        "Venkateshapura"
+       ]
+      },
+      {
+       "pincode": "560046",
+       "areas": [
+        "Benson Town",
+        "Jayamahal Road"
+       ]
+      },
+      {
+       "pincode": "560047",
+       "areas": [
+        "Viveknagar (Bangalore)",
+        "Austin Town"
+       ]
+      },
+      {
+       "pincode": "560048",
+       "areas": [
+        "Hoodi",
+        "Mahadevapura"
+       ]
+      },
+      {
+       "pincode": "560049",
+       "areas": [
+        "Bidrahalli",
+        "Mundur",
+        "Virgonagar",
+        "Bhattarahalli"
+       ]
+      },
+      {
+       "pincode": "560051",
+       "areas": [
+        "H.K.P. Road"
+       ]
+      },
+      {
+       "pincode": "560063",
+       "areas": [
+        "A F Station Yelahanka",
+        "BSF Campus Yelahanka"
+       ]
+      },
+      {
+       "pincode": "560064",
+       "areas": [
+        "Jakkur",
+        "Rajanakunte",
+        "Singanayakanahalli",
+        "Yelahanka",
+        "Attur",
+        "CRPF Campus Yelahanka",
+        "Yelahanka Satellite Town"
+       ]
+      },
+      {
+       "pincode": "560065",
+       "areas": [
+        "G.K.V.K."
+       ]
+      },
+      {
+       "pincode": "560066",
+       "areas": [
+        "Whitefield",
+        "EPIP"
+       ]
+      },
+      {
+       "pincode": "560067",
+       "areas": [
+        "Devanagundi",
+        "Kadugodi",
+        "Kalkunte",
+        "Kannamangala",
+        "Medimallasandra",
+        "Naduvathi",
+        "Samethanahalli",
+        "Kadugodi Extention SO"
+       ]
+      },
+      {
+       "pincode": "560071",
+       "areas": [
+        "Domlur"
+       ]
+      },
+      {
+       "pincode": "560075",
+       "areas": [
+        "New Thippasandra",
+        "Jeevanbhimanagar"
+       ]
+      },
+      {
+       "pincode": "560077",
+       "areas": [
+        "Doddagubbi",
+        "Dr. Shivarama Karanth Nagar",
+        "Kothanur"
+       ]
+      },
+      {
+       "pincode": "560080",
+       "areas": [
+        "Sadashivanagar"
+       ]
+      },
+      {
+       "pincode": "560084",
+       "areas": [
+        "St. Thomas Town",
+        "Lingarajapuram"
+       ]
+      },
+      {
+       "pincode": "560087",
+       "areas": [
+        "Gunjur",
+        "Muthusandra",
+        "Vartur"
+       ]
+      },
+      {
+       "pincode": "560092",
+       "areas": [
+        "Amruthahalli",
+        "Byatarayanapura",
+        "Kodigehalli",
+        "Sahakaranagar"
+       ]
+      },
+      {
+       "pincode": "560093",
+       "areas": [
+        "C.V.Raman Nagar"
+       ]
+      },
+      {
+       "pincode": "560094",
+       "areas": [
+        "R.M.V. Extension II Stage",
+        "ISRO Anthariksha Bhavan"
+       ]
+      },
+      {
+       "pincode": "560103",
+       "areas": [
+        "Bellandur",
+        "Panathur"
+       ]
+      },
+      {
+       "pincode": "560300",
+       "areas": [
+        "Bangalore International Airport"
+       ]
+      }
+     ]
+    },
+    {
+     "name": "West",
+     "active": true,
+     "pincodes": [
+      {
+       "pincode": "560002",
+       "areas": [
+        "Bangalore City",
+        "Bangalore Corporation Building"
+       ]
+      },
+      {
+       "pincode": "560003",
+       "areas": [
+        "Malleswaram",
+        "Palace Guttahalli",
+        "Swimming Pool Extn",
+        "Vyalikaval Extn"
+       ]
+      },
+      {
+       "pincode": "560009",
+       "areas": [
+        "K. G. Road",
+        "Bangalore Dist Offices Bldg"
+       ]
+      },
+      {
+       "pincode": "560010",
+       "areas": [
+        "Rajajinagar",
+        "Industrial Estate (Bangalore)",
+        "Rajajinagar IVth Block"
+       ]
+      },
+      {
+       "pincode": "560012",
+       "areas": [
+        "Science Institute"
+       ]
+      },
+      {
+       "pincode": "560013",
+       "areas": [
+        "Jalahalli"
+       ]
+      },
+      {
+       "pincode": "560014",
+       "areas": [
+        "Jalahalli East"
+       ]
+      },
+      {
+       "pincode": "560015",
+       "areas": [
+        "Jalahalli West"
+       ]
+      },
+      {
+       "pincode": "560020",
+       "areas": [
+        "Seshadripuram"
+       ]
+      },
+      {
+       "pincode": "560021",
+       "areas": [
+        "Srirampuram",
+        "Gayathrinagar"
+       ]
+      },
+      {
+       "pincode": "560022",
+       "areas": [
+        "Yeswanthpura",
+        "Yeshwanthpur Bazar"
+       ]
+      },
+      {
+       "pincode": "560023",
+       "areas": [
+        "Magadi Road"
+       ]
+      },
+      {
+       "pincode": "560040",
+       "areas": [
+        "Vijayanagar (Bangalore)",
+        "Chandra Lay Out",
+        "Vijayanagar East"
+       ]
+      },
+      {
+       "pincode": "560054",
+       "areas": [
+        "Msrit",
+        "Mathikere",
+        "Sri Chowdeshwari"
+       ]
+      },
+      {
+       "pincode": "560055",
+       "areas": [
+        "Malleswaram West"
+       ]
+      },
+      {
+       "pincode": "560057",
+       "areas": [
+        "Peenya Dasarahalli"
+       ]
+      },
+      {
+       "pincode": "560058",
+       "areas": [
+        "Peenya Small Industries",
+        "Laggere",
+        "Peenya I Stage"
+       ]
+      },
+      {
+       "pincode": "560072",
+       "areas": [
+        "Nagarbhavi"
+       ]
+      },
+      {
+       "pincode": "560073",
+       "areas": [
+        "Nagasandra (Bangalore)",
+        "Bagalgunte",
+        "Chikkabidarkal",
+        "Nelakadiranahalli"
+       ]
+      },
+      {
+       "pincode": "560079",
+       "areas": [
+        "Basaveshwaranagar",
+        "K H B Colony",
+        "Kamakshipalya"
+       ]
+      },
+      {
+       "pincode": "560086",
+       "areas": [
+        "Mahalakshmipuram Layout",
+        "West of Chord Road II stage"
+       ]
+      },
+      {
+       "pincode": "560088",
+       "areas": [
+        "Hessarghatta"
+       ]
+      },
+      {
+       "pincode": "560089",
+       "areas": [
+        "Byatha",
+        "Hessarghatta Lake",
+        "Kakolu",
+        "Shivakote"
+       ]
+      },
+      {
+       "pincode": "560090",
+       "areas": [
+        "Chikkabanavara",
+        "Silvepura",
+        "Tarabanahalli"
+       ]
+      },
+      {
+       "pincode": "560091",
+       "areas": [
+        "Bapagrama",
+        "Kodigehalli",
+        "Viswaneedam",
+        "Herohalli"
+       ]
+      },
+      {
+       "pincode": "560096",
+       "areas": [
+        "Nandinilayout"
+       ]
+      },
+      {
+       "pincode": "560097",
+       "areas": [
+        "Vidyaranyapura"
+       ]
+      },
+      {
+       "pincode": "560104",
+       "areas": [
+        "Hampinagar"
+       ]
+      },
+      {
+       "pincode": "560107",
+       "areas": [
+        "Achitnagar"
+       ]
+      },
+      {
+       "pincode": "560112",
+       "areas": [
+        "Kodigehalli"
+       ]
+      }
+     ]
+    },
+    {
+     "name": "North",
+     "active": true,
+     "pincodes": [
+      {
+       "pincode": "560052",
+       "areas": [
+        "Vasanthnagar"
+       ]
+      }
+     ]
+    },
+    {
+     "name": "South",
+     "active": true,
+     "pincodes": [
+      {
+       "pincode": "560004",
+       "areas": [
+        "Basavanagudi",
+        "Mavalli",
+        "Pampamahakavi Road",
+        "Thyagarajnagar"
+       ]
+      },
+      {
+       "pincode": "560011",
+       "areas": [
+        "Jayangar III Block",
+        "Madhavan Park"
+       ]
+      },
+      {
+       "pincode": "560018",
+       "areas": [
+        "Chamrajpet (Bangalore)"
+       ]
+      },
+      {
+       "pincode": "560019",
+       "areas": [
+        "Gaviopuram Extension"
+       ]
+      },
+      {
+       "pincode": "560026",
+       "areas": [
+        "Governmemnt Electric Factory",
+        "Deepanjalinagar"
+       ]
+      },
+      {
+       "pincode": "560027",
+       "areas": [
+        "Wilson Garden",
+        "Sampangiramnagar",
+        "Shanthinagar"
+       ]
+      },
+      {
+       "pincode": "560028",
+       "areas": [
+        "Tyagrajnagar"
+       ]
+      },
+      {
+       "pincode": "560029",
+       "areas": [
+        "Dharmaram College",
+        "Tavarekere"
+       ]
+      },
+      {
+       "pincode": "560030",
+       "areas": [
+        "Adugodi"
+       ]
+      },
+      {
+       "pincode": "560034",
+       "areas": [
+        "Koramangala",
+        "Agara",
+        "Koramangala I Block",
+        "St. John's Medical College"
+       ]
+      },
+      {
+       "pincode": "560035",
+       "areas": [
+        "Carmelram"
+       ]
+      },
+      {
+       "pincode": "560039",
+       "areas": [
+        "Nayandahalli"
+       ]
+      },
+      {
+       "pincode": "560041",
+       "areas": [
+        "Jayanagar",
+        "Tilaknagar (Bangalore)"
+       ]
+      },
+      {
+       "pincode": "560050",
+       "areas": [
+        "Banashankari",
+        "Ashoknagar (Bangalore)",
+        "Dasarahalli(Srinagar)",
+        "State Bank Of Mysore Colony"
+       ]
+      },
+      {
+       "pincode": "560053",
+       "areas": [
+        "Chickpet"
+       ]
+      },
+      {
+       "pincode": "560056",
+       "areas": [
+        "Bnagalore Viswavidalaya",
+        "Mallathahalli"
+       ]
+      },
+      {
+       "pincode": "560059",
+       "areas": [
+        "Rv Niketan"
+       ]
+      },
+      {
+       "pincode": "560060",
+       "areas": [
+        "Chudenapura",
+        "Kengeri",
+        "Sulikere"
+       ]
+      },
+      {
+       "pincode": "560061",
+       "areas": [
+        "Subramanyapura",
+        "Chikkalasandra"
+       ]
+      },
+      {
+       "pincode": "560062",
+       "areas": [
+        "Doddakallasandra",
+        "Konanakunte"
+       ]
+      },
+      {
+       "pincode": "560068",
+       "areas": [
+        "Bommanahalli (Bangalore)",
+        "Begur",
+        "Madivala",
+        "Singasandra"
+       ]
+      },
+      {
+       "pincode": "560069",
+       "areas": [
+        "Jayangar East S.O"
+       ]
+      },
+      {
+       "pincode": "560070",
+       "areas": [
+        "B Sk II Stage",
+        "Jayanagar West",
+        "Padmanabhnagar",
+        "Tyagrajnagar"
+       ]
+      },
+      {
+       "pincode": "560074",
+       "areas": [
+        "Kumbalagodu",
+        "Kumbalgodu Gollahalli",
+        "Ramohalli"
+       ]
+      },
+      {
+       "pincode": "560076",
+       "areas": [
+        "Bannerghatta Road",
+        "Hulimavu",
+        "JP Nagar VIII phase",
+        "Mico Layout",
+        "Mount St Joseph"
+       ]
+      },
+      {
+       "pincode": "560078",
+       "areas": [
+        "J P Nagar",
+        "JP Nagar III Phase",
+        "Kumaraswamy Layout",
+        "Yelachenahalli"
+       ]
+      },
+      {
+       "pincode": "560081",
+       "areas": [
+        "Chandapura"
+       ]
+      },
+      {
+       "pincode": "560082",
+       "areas": [
+        "Bolare",
+        "Kagalipura",
+        "Somanhalli",
+        "Taralu",
+        "Thataguni",
+        "Thattekuppe",
+        "Udaypura"
+       ]
+      },
+      {
+       "pincode": "560083",
+       "areas": [
+        "Bannerghatta",
+        "Kalkere",
+        "Ragihalli",
+        "Sakalavara",
+        "Gottigere"
+       ]
+      },
+      {
+       "pincode": "560085",
+       "areas": [
+        "Banashankari III Stage",
+        "Girinagar (Bangalore)",
+        "Kathriguppe"
+       ]
+      },
+      {
+       "pincode": "560095",
+       "areas": [
+        "Koramangala VI Bk"
+       ]
+      },
+      {
+       "pincode": "560098",
+       "areas": [
+        "Rajarajeshwarinagar"
+       ]
+      },
+      {
+       "pincode": "560099",
+       "areas": [
+        "Bommasandra Industrial Estate",
+        "Chandapura",
+        "Huskur",
+        "Muthanallur"
+       ]
+      },
+      {
+       "pincode": "560100",
+       "areas": [
+        "Electronics City",
+        "Wipro Limited"
+       ]
+      },
+      {
+       "pincode": "560102",
+       "areas": [
+        "HSR Layout"
+       ]
+      },
+      {
+       "pincode": "560105",
+       "areas": [
+        "Haragadde",
+        "Hennagara",
+        "Hulimangala",
+        "Jigani",
+        "Kallubalu"
+       ]
+      },
+      {
+       "pincode": "560108",
+       "areas": [
+        "Anjanapura"
+       ]
+      },
+      {
+       "pincode": "560109",
+       "areas": [
+        "Thalaghattapura"
+       ]
+      },
+      {
+       "pincode": "560110",
+       "areas": [
+        "Ullalu Upanagar"
+       ]
+      }
+     ]
+    },
+    {
+     "name": "Outskirts",
+     "active": false,
+     "pincodes": [
+      {
+       "pincode": "562106",
+       "areas": [
+        "Anekal",
+        "Bestamaranahalli",
+        "Byagadadenahalli",
+        "Guddanahalli",
+        "Indalavadi",
+        "Marsur",
+        "Samandur",
+        "Sidihoskote",
+        "Thammanayakanahalli",
+        "Vanakanahalli"
+       ]
+      },
+      {
+       "pincode": "562107",
+       "areas": [
+        "Attibele",
+        "Bidaraguppe",
+        "Mayasandra",
+        "Neralur",
+        "Yadavanahalli"
+       ]
+      },
+      {
+       "pincode": "562125",
+       "areas": [
+        "Dommasandra",
+        "Handenahalli",
+        "Kugur",
+        "Neriga",
+        "Sarjapura"
+       ]
+      },
+      {
+       "pincode": "562130",
+       "areas": [
+        "Chikkanahalli",
+        "Chunchanakuppe",
+        "Kadabagere",
+        "Kithanahalli",
+        "Soladevanahalli",
+        "Sondekoppa",
+        "Tavarekere (Bangalore)"
+       ]
+      },
+      {
+       "pincode": "562149",
+       "areas": [
+        "Bagalur (Bangalore)",
+        "Bandikodigehalli",
+        "Kannur"
+       ]
+      },
+      {
+       "pincode": "562157",
+       "areas": [
+        "Bettahalsur",
+        "Chikkajala",
+        "Doddajala",
+        "Hunasamaranahalli",
+        "Tarahunise",
+        "Vidyanagara"
+       ]
+      },
+      {
+       "pincode": "562164",
+       "areas": [
+        "Avathi",
+        "Bidalur",
+        "Bijjawara",
+        "Karahalli",
+        "Koira",
+        "Venkatagirikote"
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

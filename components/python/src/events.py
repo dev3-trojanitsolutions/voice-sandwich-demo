@@ -257,7 +257,29 @@ class TTSChunkEvent:
         return cls(type="tts_chunk", audio=audio, ts=_now_ms())
 
 
-VoiceAgentEvent = Union[UserInputEvent, STTEvent, AgentEvent, TTSChunkEvent]
+@dataclass
+class InterruptedEvent:
+    """
+    Event emitted when the user starts speaking while the agent is talking.
+
+    Only the realtime (speech-to-speech) pipeline emits this event. The client
+    should stop playing any queued agent audio as soon as it arrives.
+    """
+
+    type: Literal["interrupted"]
+
+    ts: int
+    """Unix timestamp (milliseconds since epoch) when the event was created."""
+
+    @classmethod
+    def create(cls) -> "InterruptedEvent":
+        """Factory method to create an InterruptedEvent with current timestamp."""
+        return cls(type="interrupted", ts=_now_ms())
+
+
+VoiceAgentEvent = Union[
+    UserInputEvent, STTEvent, AgentEvent, TTSChunkEvent, InterruptedEvent
+]
 
 
 def event_to_dict(event: VoiceAgentEvent) -> dict:
@@ -270,7 +292,7 @@ def event_to_dict(event: VoiceAgentEvent) -> dict:
         return {"type": event.type, "transcript": event.transcript, "ts": event.ts}
     elif isinstance(event, AgentChunkEvent):
         return {"type": event.type, "text": event.text, "ts": event.ts}
-    elif isinstance(event, AgentEndEvent):
+    elif isinstance(event, (AgentEndEvent, InterruptedEvent)):
         return {"type": event.type, "ts": event.ts}
     elif isinstance(event, ToolCallEvent):
         return {

@@ -6,10 +6,30 @@ and other common operations across the voice agent system.
 """
 
 import asyncio
+import re
 from typing import Any, AsyncIterator, TypeVar
 
 
 T = TypeVar("T")
+
+# Text up to the last sentence end and the space after it. A sentence end
+# needs the space, so a chunk that ends in "2." waits to see if "5" follows.
+SENTENCE_END = re.compile(r"^.*[.!?]\s+", re.DOTALL)
+# A long first sentence delays the first audio, so a clause end also sends
+# the text once enough has collected. The shared Cartesia context keeps the
+# prosody even across the split.
+CLAUSE_END = re.compile(r"^.*[,;:]\s+", re.DOTALL)
+MIN_CLAUSE_CHARS = 30
+
+
+def split_speakable(text: str) -> tuple[str, str]:
+    """Split agent text into the part ready to speak and the rest to keep."""
+    match = SENTENCE_END.match(text)
+    if not match and len(text) >= MIN_CLAUSE_CHARS:
+        match = CLAUSE_END.match(text)
+    if not match:
+        return "", text
+    return match.group(0), text[match.end() :]
 
 
 async def merge_async_iters(*aiters: AsyncIterator[T]) -> AsyncIterator[T]:

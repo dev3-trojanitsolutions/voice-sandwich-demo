@@ -5,22 +5,29 @@
 </script>
 
 <div
-  class="bg-[#1a1a20] text-gray-100 rounded-2xl p-6 mb-5 transition-opacity duration-300
-         {$currentTurn.active ? '' : 'opacity-50'}"
->
+  class="pipeline palette-light text-gray-100 rounded-2xl p-6 mb-5">
   <div class="flex items-center justify-between mb-4">
-    <span class="text-[11px] font-semibold uppercase tracking-wider text-gray-500">Pipeline</span>
+    <span class="text-[15px] font-semibold tracking-[-0.01em] text-white">Pipeline</span>
     <span
       class="font-mono text-[11px] py-1 px-2 rounded
              {$currentTurn.active
-               ? 'text-cyan-400 bg-cyan-400/15'
-               : 'text-gray-600 bg-[#252530]'}"
+               ? 'text-[#ff8a5c] bg-[#ff5b1f]/15'
+               : 'text-gray-500 bg-white/5'}"
     >
       {$currentTurn.active ? 'Turn Active' : 'Waiting...'}
     </span>
   </div>
 
-  <Pipeline />
-  <LatencyWaterfall />
+  <div class="transition-opacity duration-300 {$currentTurn.active ? '' : 'opacity-60'}">
+    <Pipeline />
+    <LatencyWaterfall />
+  </div>
 </div>
 
+
+<style>
+  .pipeline {
+    background-color: #0b0b0c;
+    background-image: radial-gradient(120% 80% at 90% 0%, rgb(255 91 31 / 0.16), transparent 60%);
+  }
+</style>

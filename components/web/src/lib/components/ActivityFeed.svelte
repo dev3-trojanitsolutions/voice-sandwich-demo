@@ -19,7 +19,7 @@
 
 <div class="bg-white rounded-2xl p-6 mb-5 border border-gray-200">
   <div class="flex items-center justify-between mb-4">
-    <span class="text-[11px] font-semibold uppercase tracking-wider text-gray-500">Activity</span>
+    <span class="text-[15px] font-semibold tracking-[-0.01em] text-gray-900">Activity</span>
     <button
       onclick={() => activities.clear()}
       class="text-[11px] text-gray-400 hover:text-gray-600 transition-colors cursor-pointer"
@@ -33,7 +33,7 @@
       <div class="text-gray-400 text-sm py-5 text-center">No activity yet...</div>
     {:else}
       {#each $activities as item (item.id)}
-        <div class="flex items-start gap-3 p-3 bg-gray-100 rounded-xl animate-slideIn">
+        <div class="flex items-start gap-3 p-3 bg-gray-50 border border-gray-200 rounded-xl animate-slideIn">
           <div class="w-8 h-8 rounded-lg flex items-center justify-center text-sm flex-shrink-0 {colorMap[item.type]?.bg}">
             {iconMap[item.type] || '📋'}
           </div>

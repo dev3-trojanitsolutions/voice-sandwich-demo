@@ -5,7 +5,7 @@
 
 <div class="bg-white rounded-2xl p-6 border border-gray-200">
   <div class="flex items-center justify-between mb-4">
-    <span class="text-[11px] font-semibold uppercase tracking-wider text-gray-500">Console</span>
+    <span class="text-[15px] font-semibold tracking-[-0.01em] text-gray-900">Console</span>
   </div>
 
   <div class="max-h-44 overflow-y-auto font-mono text-[11px] text-gray-600 leading-relaxed">

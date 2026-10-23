@@ -1,0 +1,12 @@
+[project]
+name = "local-voice"
+version = "0.1.0"
+description = "Local cloned voices and accents for the voice agent (MLX on Apple silicon)"
+requires-python = ">=3.11,<3.13"
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "soundfile",
+    "mlx-audio==0.5.9",
+    "pocket-tts>=3.3.0",
+]

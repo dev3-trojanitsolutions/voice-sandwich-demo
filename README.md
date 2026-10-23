@@ -1,127 +1,103 @@
-# Voice Sandwich Demo 🥪
+# Ustad Hotel Voice Agent 🍛
 
-A real-time, voice-to-voice AI pipeline demo featuring a sandwich shop order assistant. Built with LangChain/LangGraph agents, AssemblyAI for speech-to-text, and Cartesia for text-to-speech.
+A voice agent that takes food orders for Ustad Hotel. The customer talks in the browser. The agent answers menu questions, takes the name, address, items and payment method, and confirms the order with an OTP.
 
-## Architecture
+Shop staff use the **desk** to read every call transcript, see customers and their orders, edit what the agent knows, set the order steps, and choose the voice model.
 
-The pipeline processes audio through three transform stages using async generators with a producer-consumer pattern:
+## Pipelines
 
-```mermaid
-flowchart LR
-    subgraph Client [Browser]
-        Mic[🎤 Microphone] -->|PCM Audio| WS_Out[WebSocket]
-        WS_In[WebSocket] -->|Audio + Events| Speaker[🔊 Speaker]
-    end
+The Python backend has three pipelines. Choose the default with `PIPELINE` in `.env`, or switch on the desk.
 
-    subgraph Server [Node.js / Python]
-        WS_Receiver[WS Receiver] --> Pipeline
+| Pipeline | How it works | Notes |
+|----------|-------------|-------|
+| `realtime` (default) | Google Gemini Live hears the audio and speaks the reply | Fastest. The customer can interrupt the agent. |
+| `ollama` | AssemblyAI STT → local model in Ollama → Cartesia TTS | The language model runs on this machine. Replies take 1–5 seconds. |
+| `sandwich` | AssemblyAI STT → Claude Haiku (LangChain agent) → Cartesia TTS | The original pipeline of this demo. |
 
-        subgraph Pipeline [Voice Agent Pipeline]
-            direction LR
-            STT[AssemblyAI STT] -->|Transcripts| Agent[LangChain Agent]
-            Agent -->|Text Chunks| TTS[Cartesia TTS]
-        end
+All three pipelines use the same order tools and the same knowledge base (Chroma RAG over the knowledge modules edited on the desk). They send the same events to the browser.
 
-        Pipeline -->|Events| WS_Sender[WS Sender]
-    end
-
-    WS_Out --> WS_Receiver
-    WS_Sender --> WS_In
-```
-
-### Pipeline Stages
-
-Each stage is an async generator that transforms a stream of events:
-
-1. **STT Stage** (`sttStream`): Streams audio to AssemblyAI, yields transcription events (`stt_chunk`, `stt_output`)
-2. **Agent Stage** (`agentStream`): Passes upstream events through, invokes LangChain agent on final transcripts, yields agent responses (`agent_chunk`, `tool_call`, `tool_result`, `agent_end`)
-3. **TTS Stage** (`ttsStream`): Passes upstream events through, sends agent text to Cartesia, yields audio events (`tts_chunk`)
+The TypeScript backend in `components/typescript` has only the `sandwich` pipeline and no RAG.
 
 ## Prerequisites
 
-- **Node.js** (v18+) or **Python** (3.11+)
-- **pnpm** or **uv** (Python package manager)
+- Python 3.11+ with `uv`, and Node.js 18+ with `pnpm`
+- For the `ollama` pipeline: [Ollama](https://ollama.com) running locally, with the model pulled (`ollama pull qwen3.5:4b`)
 
-### API Keys
+### API keys
 
-| Service | Environment Variable | Purpose |
-|---------|---------------------|---------|
-| AssemblyAI | `ASSEMBLYAI_API_KEY` | Speech-to-Text |
-| Cartesia | `CARTESIA_API_KEY` | Text-to-Speech |
-| Anthropic | `ANTHROPIC_API_KEY` | LangChain Agent (Claude) |
+Copy `.env.example` to `.env` and fill in the keys for the pipelines you use.
 
-## Quick Start
+| Service | Variable | Needed by |
+|---------|----------|-----------|
+| Google | Desk: **Settings → Gemini** (or `GOOGLE_API_KEY`) | `realtime` |
+| AssemblyAI | `ASSEMBLYAI_API_KEY` | `ollama`, `sandwich` |
+| Cartesia | `CARTESIA_API_KEY` | `ollama`, `sandwich` |
+| Anthropic | `ANTHROPIC_API_KEY` | `sandwich` |
 
-### Using Make (Recommended)
+## Quick start
 
-```bash
-# Install all dependencies
-make bootstrap
-
-# Run TypeScript implementation (with hot reload)
-make dev-ts
-
-# Or run Python implementation (with hot reload)
-make dev-py
-```
-
-The app will be available at `http://localhost:8000`
-
-### Manual Setup
-
-#### TypeScript
+Run these from the repository root.
 
 ```bash
-cd components/typescript
-pnpm install
-cd ../web
-pnpm install && pnpm build
-cd ../typescript
-pnpm run server
+make bootstrap   # install all dependencies
+make dev-py      # start the Python server with reload
 ```
 
-#### Python
+Open these pages:
 
-```bash
-cd components/python
-uv sync --dev
-cd ../web
-pnpm install && pnpm build
-cd ../python
-uv run src/main.py
-```
+- Order page: `http://localhost:8000`
+- Desk: `http://localhost:8000/desk/`
+- Log in: `http://localhost:8000/login/`
+- Log out: `http://localhost:8000/logout/`
 
-## Project Structure
+Every page needs a login, also the order page and the voice agent. The first start creates the user `admin` with the password `1234`. Log in, then change the password in **Account**.
+
+## Desk
+
+- **Conversations:** every call, newest first, with its outcome (Live, Ordered, Cancelled or No order). Select a call to read the transcript and the tools the agent used. Search by name, phone number or words.
+- **Customers:** add a customer, and see each customer's orders and calls.
+- **Training:** the knowledge modules: Menu, FAQ, Allergens and any module you add. Edit sections, and test a question to see what the agent finds. Every voice model uses a change from the next question, with no restart.
+- **Flow:** the steps the agent asks for, in order. Move a step, change what the agent asks, or add a custom step such as "Spice level" with choices.
+- **Users:** add, edit, deactivate and delete desk users, and reset their passwords. Make roles and choose the permissions of each role. The built-in roles are Admin (every permission, can't be changed), Manager (everything except users) and Staff (view only, plus adding customers). Only users with the "Manage users and roles" permission see this section.
+- **Account:** your name and role, change your password, and log out. **Log Out** is also in the sidebar and on the order page.
+- **Settings:** set the business name, description, city, phone, email, address, icon and logo. The order page, the desk and the login page show the name and logo, and the agent says the name in its greeting and gives the contact details when asked. Add or change the Gemini API key: the server checks it with Google before saving, and only the last four characters are ever shown. The first start copies `GOOGLE_API_KEY` from `.env` here. Also switch the voice model between Gemini and Local. Record your own voice, make accent versions of it, and choose the voice for calls. This needs the local voice service: run `make install-voice` once. `make dev-py` then starts it. See [voice-doc.md](components/voice-doc.md).
+
+Each user sees only the desk sections their role allows, and the server checks the permission on every desk API call (`components/python/src/auth.py`). Customers, orders, transcripts, knowledge modules, the flow, the chosen mode, and the desk users, roles and login sessions are kept in SQLite at `components/python/data/shop.db`.
+
+## Project structure
 
 ```
 components/
-├── web/                 # Svelte frontend (shared by both backends)
+├── web/                     # Svelte client, shared by both backends
+│   ├── index.html           # Order page
+│   ├── desk/index.html      # Desk page
+│   ├── login/index.html     # Login page
+│   ├── logout/index.html    # Logout page
+│   └── src/lib/desk/        # Desk sections
+├── python/
+│   ├── knowledge/           # Seed files for the knowledge modules (first start only)
 │   └── src/
-├── typescript/          # Node.js backend
-│   └── src/
-│       ├── index.ts     # Main server & pipeline
-│       ├── assemblyai/  # AssemblyAI STT client
-│       ├── cartesia/    # Cartesia TTS client
-│       └── elevenlabs/  # Alternate TTS client
-└── python/              # Python backend
-    └── src/
-        ├── main.py             # Main server & pipeline
-        ├── assemblyai_stt.py
-        ├── cartesia_tts.py
-        ├── elevenlabs_tts.py   # Alternate TTS client
-        └── events.py           # Event type definitions
+│       ├── main.py              # Server, /ws endpoint, /api routes, pipeline selection
+│       ├── gemini_live.py       # realtime pipeline
+│       ├── ollama_harness.py    # ollama pipeline agent
+│       ├── orders.py            # Order state and order tools
+│       ├── flow.py              # Ordering flow: steps, checks, prompt text
+│       ├── knowledge_base.py    # Chroma ingest and search
+│       ├── store.py             # SQLite store
+│       ├── conversation_log.py  # Saves call transcripts
+│       ├── assemblyai_stt.py    # STT client
+│       └── cartesia_tts.py      # TTS client
+├── voice/                   # Local voice service: cloned voices and accents (OmniVoice, Pocket TTS)
+└── typescript/              # Node.js backend (sandwich pipeline only)
 ```
 
-## Event Types
+## Documentation
 
-The pipeline communicates via a unified event stream:
-
-| Event | Direction | Description |
-|-------|-----------|-------------|
-| `stt_chunk` | STT → Client | Partial transcription (real-time feedback) |
-| `stt_output` | STT → Agent | Final transcription |
-| `agent_chunk` | Agent → TTS | Text chunk from agent response |
-| `tool_call` | Agent → Client | Tool invocation |
-| `tool_result` | Agent → Client | Tool execution result |
-| `agent_end` | Agent → TTS | Signals end of agent turn |
-| `tts_chunk` | TTS → Client | Audio chunk for playback |
+| Document | Contents |
+|----------|----------|
+| [functional-doc.md](components/functional-doc.md) | What the agent and the desk do, for staff and customers |
+| [architecture.md](components/architecture.md) | Parts of the system, pipelines, state and events |
+| [technical-doc.md](components/technical-doc.md) | Code, configuration, API and known limits |
+| [rag_doc.md](components/rag_doc.md) | The knowledge base and retrieval |
+| [training-doc.md](components/training-doc.md) | The desk Training and Flow sections: summary, simple explanation, architecture and technical details |
+| [voice-doc.md](components/voice-doc.md) | Your own voice and its accents: how to record, the voice service, architecture and technical details |

@@ -1,4 +1,5 @@
 import type { ServerEvent } from "./types";
+import { getMe } from "./api";
 import {
   session,
   currentTurn,
@@ -81,6 +82,22 @@ export function createVoiceSession(): VoiceSession {
         }, 300);
         break;
       }
+
+      case "interrupted":
+        // User spoke over the agent: drop any queued agent audio
+        audioPlayback.stop();
+        logs.log("Interrupted: agent audio stopped");
+        activities.add("agent", "Interrupted", "User spoke over the agent");
+
+        // Close the cut turn so the barge-in starts a fresh one
+        if (ttsFinishTimeout) {
+          clearTimeout(ttsFinishTimeout);
+          ttsFinishTimeout = null;
+        }
+        if (get(currentTurn).active) {
+          finishTurn();
+        }
+        break;
     }
   }
 
@@ -144,6 +161,9 @@ export function createVoiceSession(): VoiceSession {
       console.error(e);
       logs.log("WebSocket error");
       session.setStatus("error");
+      // The server rejects the connection when the session ended; this goes
+      // to the login page then
+      getMe().catch(() => {});
     };
   }
 
