@@ -9,7 +9,8 @@ permission for the route. The voice agent (/ws) checks the session in
 main.py, because the middleware doesn't see WebSocket connections.
 
 The first start creates the user "admin" with the password "1234" and the
-Admin role. Change the password on the desk (Account) after the first login.
+Admin role. Set a new password with `make set-admin-password` (terminal) or on
+the desk (Account) after the first login.
 
 Passwords are hashed with scrypt. A login sets a random session token in an
 HttpOnly cookie; the store keeps only its SHA-256 hash.
@@ -142,15 +143,20 @@ def _token_hash(token: str) -> str:
     return hashlib.sha256(token.encode()).hexdigest()
 
 
-def seed() -> None:
-    """Create the built-in roles, and the first admin when there are no users.
-    Admin gets any permission added since the last start."""
+def seed_roles() -> None:
+    """Create the built-in roles. Admin gets any permission added since the
+    last start."""
     for name, permissions in BUILTIN_ROLES.items():
         role = store.find_role(name)
         if not role:
             store.add_role(name, permissions, builtin=True)
         elif name == ADMIN_ROLE:
             store.update_role(role["id"], name, permissions)
+
+
+def seed() -> None:
+    """Create the built-in roles, and the first admin when there are no users."""
+    seed_roles()
     if store.count_users() == 0:
         username, name, password = FIRST_USER
         role_id = store.find_role(ADMIN_ROLE)["id"]

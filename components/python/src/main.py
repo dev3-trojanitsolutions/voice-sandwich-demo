@@ -56,7 +56,7 @@ seed_modules()
 print(f"Knowledge base: {ingest()} chunks")
 delivery.seed()
 auth.seed()
-credentials.import_env_key()
+credentials.import_env_keys()
 store.end_open_conversations()
 
 # Static files are served from the shared web build output
@@ -175,13 +175,19 @@ def _build_llm():
             keep_alive=-1,  # keep the model loaded between turns
             num_ctx=4096,
         )
-    return "anthropic:claude-haiku-4-5"
+    from langchain_anthropic import ChatAnthropic
+
+    # The key set on the desk, or ANTHROPIC_API_KEY from .env
+    return ChatAnthropic(
+        model="claude-haiku-4-5", api_key=credentials.key("anthropic") or None
+    )
 
 
 # Agents are built on first use, so a switch on the desk page needs no restart.
-# They are cached by prompt: a flow or menu change on the desk builds a new one.
+# They are cached by prompt and key: a flow or menu change, or a new key on the
+# desk, builds a new one.
 @functools.lru_cache(maxsize=4)
-def sandwich_agent(prompt: str):
+def sandwich_agent(prompt: str, llm_key: str = ""):
     return create_agent(
         model=_build_llm(),
         tools=TOOLS,
@@ -296,7 +302,10 @@ async def _agent_stream(
     # using the checkpointer (InMemorySaver) configured in the agent
     thread_id = str(uuid4())
     order = current_order.get(None)
-    agent = sandwich_agent(build_shop_prompt(order.flow if order else flow.load_flow()))
+    agent = sandwich_agent(
+        build_shop_prompt(order.flow if order else flow.load_flow()),
+        credentials.key("anthropic"),
+    )
 
     # Process each event as it arrives from the upstream STT stage
     async for event in event_stream:
@@ -576,30 +585,39 @@ async def update_settings(update: SettingsUpdate):
     return await _settings()
 
 
-class GeminiKeyIn(BaseModel):
+class ApiKeyIn(BaseModel):
     key: str
 
 
-# Only the last four characters of the key ever leave the server
-@app.get("/api/settings/gemini-key")
-async def get_gemini_key():
-    return await asyncio.to_thread(credentials.gemini_status)
-
-
-@app.put("/api/settings/gemini-key")
-async def save_gemini_key(body: GeminiKeyIn):
+def _provider_or_404(provider_id: str):
     try:
-        status = await asyncio.to_thread(credentials.save_gemini_key, body.key)
+        return credentials.provider(provider_id)
+    except KeyError:
+        raise HTTPException(404, f"Unknown service '{provider_id}'.")
+
+
+# Only the last four characters of a key ever leave the server
+@app.get("/api/settings/keys")
+async def get_api_keys():
+    return await asyncio.to_thread(credentials.all_status)
+
+
+@app.put("/api/settings/keys/{provider_id}")
+async def save_api_key(provider_id: str, body: ApiKeyIn):
+    p = _provider_or_404(provider_id)
+    try:
+        status = await asyncio.to_thread(credentials.save, p.id, body.key)
     except ValueError as e:
         raise HTTPException(400, str(e))
-    print("Desk: Gemini API key saved")
+    print(f"Desk: {p.name} API key saved")
     return status
 
 
-@app.delete("/api/settings/gemini-key")
-async def delete_gemini_key():
-    status = await asyncio.to_thread(credentials.remove_gemini_key)
-    print("Desk: Gemini API key removed")
+@app.delete("/api/settings/keys/{provider_id}")
+async def delete_api_key(provider_id: str):
+    p = _provider_or_404(provider_id)
+    status = await asyncio.to_thread(credentials.remove, p.id)
+    print(f"Desk: {p.name} API key removed")
     return status
 
 

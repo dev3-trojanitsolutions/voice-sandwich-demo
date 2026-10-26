@@ -18,6 +18,34 @@ All three pipelines use the same order tools and the same knowledge base (Chroma
 
 The TypeScript backend in `components/typescript` has only the `sandwich` pipeline and no RAG.
 
+## Installation
+
+One command downloads the application, installs everything it needs (also the local LLM), and builds it. See [install-doc.md](components/install-doc.md) for the details, the options and the install by hand.
+
+macOS and Ubuntu:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/dev3-trojanitsolutions/voice-sandwich-demo/main/install.sh | bash
+```
+
+Windows (PowerShell):
+
+```powershell
+powershell -ExecutionPolicy Bypass -c "irm https://raw.githubusercontent.com/dev3-trojanitsolutions/voice-sandwich-demo/main/install.ps1 | iex"
+```
+
+Disk space: about 1.2 GB without the local LLM (`--no-llm`), 5.2 GB with it, and 10.3 GB with the LLM and the local voice service on an Apple silicon Mac.
+
+Then set the admin password, start the server, and add the Gemini key on the desk (**Settings → API Keys**):
+
+```bash
+cd voice-sandwich-demo
+make set-admin-password   # Windows: .\run.ps1 set-admin-password
+make start-py             # Windows: .\run.ps1 start
+```
+
+Stop the server with **Ctrl+C**, or with `make stop` (Windows: `.\run.ps1 stop`) when it runs in the background.
+
 ## Prerequisites
 
 - Python 3.11+ with `uv`, and Node.js 18+ with `pnpm`
@@ -29,18 +57,20 @@ Copy `.env.example` to `.env` and fill in the keys for the pipelines you use.
 
 | Service | Variable | Needed by |
 |---------|----------|-----------|
-| Google | Desk: **Settings → Gemini** (or `GOOGLE_API_KEY`) | `realtime` |
-| AssemblyAI | `ASSEMBLYAI_API_KEY` | `ollama`, `sandwich` |
-| Cartesia | `CARTESIA_API_KEY` | `ollama`, `sandwich` |
-| Anthropic | `ANTHROPIC_API_KEY` | `sandwich` |
+| Google | Desk: **Settings → API Keys** (or `GOOGLE_API_KEY`) | `realtime` |
+| AssemblyAI | Desk: **Settings → API Keys** (or `ASSEMBLYAI_API_KEY`) | `ollama`, `sandwich` |
+| Cartesia | Desk: **Settings → API Keys** (or `CARTESIA_API_KEY`) | `ollama`, `sandwich` |
+| Anthropic | Desk: **Settings → API Keys** (or `ANTHROPIC_API_KEY`) | `sandwich` |
 
 ## Quick start
 
 Run these from the repository root.
 
 ```bash
-make bootstrap   # install all dependencies
-make dev-py      # start the Python server with reload
+make install-all          # install all dependencies, create .env, build the web pages
+make set-admin-password   # set the desk admin password
+make dev-py               # start the Python server with reload
+make stop                 # stop a server left running in the background
 ```
 
 Open these pages:
@@ -50,7 +80,7 @@ Open these pages:
 - Log in: `http://localhost:8000/login/`
 - Log out: `http://localhost:8000/logout/`
 
-Every page needs a login, also the order page and the voice agent. The first start creates the user `admin` with the password `1234`. Log in, then change the password in **Account**.
+Every page needs a login, also the order page and the voice agent. Set the password of the user `admin` with `make set-admin-password`. If you don't, the first start creates `admin` with the password `1234`: log in, then change the password in **Account**. The command also resets a forgotten password.
 
 ## Desk
 
@@ -60,7 +90,7 @@ Every page needs a login, also the order page and the voice agent. The first sta
 - **Flow:** the steps the agent asks for, in order. Move a step, change what the agent asks, or add a custom step such as "Spice level" with choices.
 - **Users:** add, edit, deactivate and delete desk users, and reset their passwords. Make roles and choose the permissions of each role. The built-in roles are Admin (every permission, can't be changed), Manager (everything except users) and Staff (view only, plus adding customers). Only users with the "Manage users and roles" permission see this section.
 - **Account:** your name and role, change your password, and log out. **Log Out** is also in the sidebar and on the order page.
-- **Settings:** set the business name, description, city, phone, email, address, icon and logo. The order page, the desk and the login page show the name and logo, and the agent says the name in its greeting and gives the contact details when asked. Add or change the Gemini API key: the server checks it with Google before saving, and only the last four characters are ever shown. The first start copies `GOOGLE_API_KEY` from `.env` here. Also switch the voice model between Gemini and Local. Record your own voice, make accent versions of it, and choose the voice for calls. This needs the local voice service: run `make install-voice` once. `make dev-py` then starts it. See [voice-doc.md](components/voice-doc.md).
+- **Settings:** set the business name, description, city, phone, email, address, icon and logo. The order page, the desk and the login page show the name and logo, and the agent says the name in its greeting and gives the contact details when asked. Add or change the API keys for Gemini, AssemblyAI, Cartesia and Anthropic: the server checks each key with its service before saving, and only the last four characters are ever shown. The first start copies each key from `.env` here. Also switch the voice model between Gemini and Local. Record your own voice, make accent versions of it, and choose the voice for calls. This needs the local voice service: run `make install-voice` once. `make dev-py` then starts it. See [voice-doc.md](components/voice-doc.md).
 
 Each user sees only the desk sections their role allows, and the server checks the permission on every desk API call (`components/python/src/auth.py`). Customers, orders, transcripts, knowledge modules, the flow, the chosen mode, and the desk users, roles and login sessions are kept in SQLite at `components/python/data/shop.db`.
 
@@ -95,6 +125,7 @@ components/
 
 | Document | Contents |
 |----------|----------|
+| [install-doc.md](components/install-doc.md) | Install on macOS, Ubuntu and Windows, disk space, admin password, API keys, run and stop |
 | [functional-doc.md](components/functional-doc.md) | What the agent and the desk do, for staff and customers |
 | [architecture.md](components/architecture.md) | Parts of the system, pipelines, state and events |
 | [technical-doc.md](components/technical-doc.md) | Code, configuration, API and known limits |

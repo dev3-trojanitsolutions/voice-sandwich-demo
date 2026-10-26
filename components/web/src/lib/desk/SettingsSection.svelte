@@ -3,7 +3,7 @@
   import { getSettings, setPipeline, type Pipeline, type Settings } from '../api';
   import VoicesSection from './VoicesSection.svelte';
   import BusinessSection from './BusinessSection.svelte';
-  import GeminiSection from './GeminiSection.svelte';
+  import ApiKeysSection from './ApiKeysSection.svelte';
 
   let settings = $state<Settings | null>(null);
   let switching = $state<Pipeline | null>(null);
@@ -57,7 +57,7 @@
 
 <BusinessSection />
 
-<GeminiSection
+<ApiKeysSection
   onchange={() =>
     getSettings()
       .then((s) => (settings = s))

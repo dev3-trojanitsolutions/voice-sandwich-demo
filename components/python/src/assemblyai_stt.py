@@ -18,6 +18,7 @@ from urllib.parse import urlencode
 import websockets
 from websockets.client import WebSocketClientProtocol
 
+import credentials
 from events import STTChunkEvent, STTEvent, STTOutputEvent
 
 # Turn detection. AssemblyAI ends a turn after min_end_of_turn_silence_when_confident
@@ -40,9 +41,9 @@ class AssemblyAISTT:
         punctuation and casing, which adds latency. Without it, the final
         transcript is sent as soon as the turn ends.
         """
-        self.api_key = api_key or os.getenv("ASSEMBLYAI_API_KEY")
+        self.api_key = api_key or credentials.key("assemblyai")
         if not self.api_key:
-            raise ValueError("AssemblyAI API key is required")
+            raise ValueError("Add the AssemblyAI API key in Settings → API Keys")
 
         self.sample_rate = sample_rate
         self.format_turns = format_turns

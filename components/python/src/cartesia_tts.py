@@ -19,6 +19,7 @@ from typing import AsyncIterator, Literal, Optional
 import websockets
 from websockets.client import WebSocketClientProtocol
 
+import credentials
 from events import TTSChunkEvent
 
 
@@ -39,9 +40,9 @@ class CartesiaTTS:
         language: str = "en",
         cartesia_version: str = "2025-04-16",
     ):
-        self.api_key = api_key or os.getenv("CARTESIA_API_KEY")
+        self.api_key = api_key or credentials.key("cartesia")
         if not self.api_key:
-            raise ValueError("Cartesia API key is required")
+            raise ValueError("Add the Cartesia API key in Settings → API Keys")
 
         # CARTESIA_VOICE_ID picks the voice, for example your own cloned voice
         self.voice_id = (

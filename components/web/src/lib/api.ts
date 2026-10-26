@@ -148,7 +148,13 @@ export const setPipeline = (pipeline: Pipeline) =>
     body: JSON.stringify({ pipeline }),
   });
 
-export interface GeminiKeyStatus {
+export type KeyProvider = "gemini" | "assemblyai" | "cartesia" | "anthropic";
+
+export interface ApiKeyStatus {
+  id: KeyProvider;
+  name: string;
+  /** The .env variable used when no key is saved here */
+  env: string;
   set: boolean;
   /** "desk" when saved in Settings, "env" when it comes from .env */
   source: "desk" | "env" | "";
@@ -156,16 +162,16 @@ export interface GeminiKeyStatus {
   hint: string;
 }
 
-export const getGeminiKey = () => request<GeminiKeyStatus>("/api/settings/gemini-key");
+export const getApiKeys = () => request<ApiKeyStatus[]>("/api/settings/keys");
 
-export const saveGeminiKey = (key: string) =>
-  request<GeminiKeyStatus>("/api/settings/gemini-key", {
+export const saveApiKey = (id: KeyProvider, key: string) =>
+  request<ApiKeyStatus>(`/api/settings/keys/${id}`, {
     method: "PUT",
     body: JSON.stringify({ key }),
   });
 
-export const removeGeminiKey = () =>
-  request<GeminiKeyStatus>("/api/settings/gemini-key", { method: "DELETE" });
+export const removeApiKey = (id: KeyProvider) =>
+  request<ApiKeyStatus>(`/api/settings/keys/${id}`, { method: "DELETE" });
 
 export const getCustomers = () => request<Customer[]>("/api/customers");
 
